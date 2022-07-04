@@ -16,6 +16,7 @@
 		BA9941B02871D57E00419DAD /* WordleTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA9941AF2871D57E00419DAD /* WordleTests.swift */; };
 		BA9941BA2871D57E00419DAD /* WordleUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA9941B92871D57E00419DAD /* WordleUITests.swift */; };
 		BA9941BC2871D57E00419DAD /* WordleUITestsLaunchTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA9941BB2871D57E00419DAD /* WordleUITestsLaunchTests.swift */; };
+		BA99420A287302A800419DAD /* EndGameViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA994208287302A800419DAD /* EndGameViewController.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -49,6 +50,7 @@
 		BA9941B52871D57E00419DAD /* WordleUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = WordleUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		BA9941B92871D57E00419DAD /* WordleUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WordleUITests.swift; sourceTree = "<group>"; };
 		BA9941BB2871D57E00419DAD /* WordleUITestsLaunchTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WordleUITestsLaunchTests.swift; sourceTree = "<group>"; };
+		BA994208287302A800419DAD /* EndGameViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EndGameViewController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -99,12 +101,11 @@
 		BA9941972871D57C00419DAD /* Wordle */ = {
 			isa = PBXGroup;
 			children = (
+				BA99420D2873066100419DAD /* Views */,
+				BA99420C2873063B00419DAD /* Controllers */,
 				BA9941982871D57C00419DAD /* AppDelegate.swift */,
 				BA99419A2871D57C00419DAD /* SceneDelegate.swift */,
-				BA99419C2871D57C00419DAD /* ViewController.swift */,
-				BA99419E2871D57C00419DAD /* Main.storyboard */,
 				BA9941A12871D57D00419DAD /* Assets.xcassets */,
-				BA9941A32871D57E00419DAD /* LaunchScreen.storyboard */,
 				BA9941A62871D57E00419DAD /* Info.plist */,
 			);
 			path = Wordle;
@@ -125,6 +126,32 @@
 				BA9941BB2871D57E00419DAD /* WordleUITestsLaunchTests.swift */,
 			);
 			path = WordleUITests;
+			sourceTree = "<group>";
+		};
+		BA99420C2873063B00419DAD /* Controllers */ = {
+			isa = PBXGroup;
+			children = (
+				BA994208287302A800419DAD /* EndGameViewController.swift */,
+				BA99419C2871D57C00419DAD /* ViewController.swift */,
+			);
+			path = Controllers;
+			sourceTree = "<group>";
+		};
+		BA99420D2873066100419DAD /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				BA99420E2873070400419DAD /* Models */,
+				BA99419E2871D57C00419DAD /* Main.storyboard */,
+				BA9941A32871D57E00419DAD /* LaunchScreen.storyboard */,
+			);
+			path = Views;
+			sourceTree = "<group>";
+		};
+		BA99420E2873070400419DAD /* Models */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Models;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -259,6 +286,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				BA99419D2871D57C00419DAD /* ViewController.swift in Sources */,
+				BA99420A287302A800419DAD /* EndGameViewController.swift in Sources */,
 				BA9941992871D57C00419DAD /* AppDelegate.swift in Sources */,
 				BA99419B2871D57C00419DAD /* SceneDelegate.swift in Sources */,
 			);
