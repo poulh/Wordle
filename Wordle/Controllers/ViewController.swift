@@ -21,6 +21,7 @@ class ViewController: UIViewController,  UITextFieldDelegate {
     let emptyValue = " "
     
     var currWord = 0
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -28,10 +29,18 @@ class ViewController: UIViewController,  UITextFieldDelegate {
         entryTextField.isHidden = false
         entryTextField.becomeFirstResponder()
         
+        createGameBoard()
+        
+        let char = todaysWord[todaysWord.index(todaysWord.startIndex, offsetBy: 3)]
+        print(char)
+        
+    }
+    
+   
+    fileprivate func createGameBoard() {
         for _ in 0..<maxAttempts {
             let wordStackView = UIStackView()
-
-
+            
             wordStackView.distribution = .fillEqually
             wordStackView.spacing = 0
             wordStackView.axis = .horizontal
@@ -40,13 +49,12 @@ class ViewController: UIViewController,  UITextFieldDelegate {
                 letterLabel.frame = CGRect(x: 0, y: 0, width: 64, height: 64  )
                 letterLabel.text = emptyValue
                 letterLabel.font = letterLabel.font.withSize(48)
-
+                
                 letterLabel.backgroundColor = .black
                 letterLabel.textColor = .white
                 letterLabel.layer.borderColor = UIColor.white.cgColor
                 letterLabel.layer.borderWidth = 1.0
-
-
+                
                 letterLabel.textAlignment = .center
                 wordStackView.addArrangedSubview(letterLabel)
             }
@@ -54,35 +62,47 @@ class ViewController: UIViewController,  UITextFieldDelegate {
         }
     }
     
+    fileprivate func newGame() {
+        currWord = 0
+        
+        for index in 0..<maxAttempts {
+            updateCurrWordLabel(at: index, with: "") { label, letter in
+                label.text = letter
+            }
+        }
+    }
+    
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
         
-        if let entryText = entryTextField.text {
-            if entryText.count < maxWordLength {
-                textField.text = ""
-                updateCurrWordLabel(with: "") { label, letter in
-                    label.text = letter
-                    
-                }
-            } else {
-                if possibleWords.contains(entryText) {
-                    textField.text = ""
-                    
-                    if entryText == todaysWord {
-                        win()
-                    } else {
-                        currWord += 1
-                        if currWord >= maxAttempts {
-                            lose()
-                        }
-                    }
-                } else {
-                    updateCurrWordLabel(with: entryText) { label, letter in
-                        label.textColor = .red
-                    }
-                }
-                
-                print(currWord)
+        guard let entryText = textField.text else {
+            return false
+        }
+        var clearText = true
+
+        if entryText.count < maxWordLength {
+            updateCurrWordLabel(at: currWord, with: "") { label, letter in
+                label.text = letter
             }
+        } else if entryText == todaysWord {
+            win()
+            newGame()
+        }
+        else if possibleWords.contains(entryText) {
+                
+            currWord += 1
+            if currWord >= maxAttempts {
+                lose()
+                newGame()
+            }
+                
+        } else {
+            clearText = false
+            updateCurrWordLabel(at: currWord, with: entryText) { label, letter in
+                label.textColor = .red
+            }
+        }
+        if clearText {
+            textField.text = ""
         }
         return true
     }
@@ -93,14 +113,12 @@ class ViewController: UIViewController,  UITextFieldDelegate {
     }
    
     func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
-        if let oldString = textField.text {
-               let newString = oldString.replacingCharacters(in: Range(range, in: oldString)!,
-                                                             with: string)
-               return (newString.count <= maxWordLength)
-           }
-           
-        return false
-   
+        guard let oldString = textField.text else {
+            return false
+        }
+        
+        let newString = oldString.replacingCharacters(in: Range(range, in: oldString)!, with: string)
+        return (newString.count <= maxWordLength)
     }
     
     func win() {
@@ -118,26 +136,29 @@ class ViewController: UIViewController,  UITextFieldDelegate {
     }
     
     @IBAction func enttryTextFieldEditingChanged(_ sender: UITextField) {
-        if let entryText = sender.text {
-            updateCurrWordLabel(with: entryText) { label, letter in
-                label.text = letter
-                label.textColor = .white
-            }
+        guard let entryText = sender.text else {
+            return
+        }
+        
+        updateCurrWordLabel(at: currWord, with: entryText) { label, letter in
+            label.text = letter
+            label.textColor = .white
         }
     }
     
-    func updateCurrWordLabel(with string:String, action: (UILabel, String)->()) {
-        let wordStackView = wordListStackView.arrangedSubviews[currWord] as! UIStackView
-
+    func updateCurrWordLabel(at wordIndex:Int, with string:String, action: (UILabel, String)->()) {
+        guard let wordStackView = wordListStackView.arrangedSubviews[wordIndex] as? UIStackView else {
+            return
+        }
         
-        for (idx, letter) in string.enumerated() {
-            if let letterLabel = wordStackView.arrangedSubviews[idx] as? UILabel {
+        for (letterIndex, letter) in string.enumerated() {
+            if let letterLabel = wordStackView.arrangedSubviews[letterIndex] as? UILabel {
                 action(letterLabel, String(letter))
             }
         }
         
-        for idx in string.count..<maxWordLength {
-            if let letterLabel = wordStackView.arrangedSubviews[idx] as? UILabel {
+        for letterIndex in string.count..<maxWordLength {
+            if let letterLabel = wordStackView.arrangedSubviews[letterIndex] as? UILabel {
                 action(letterLabel, emptyValue)
             }
         }
@@ -151,11 +172,6 @@ class ViewController: UIViewController,  UITextFieldDelegate {
                 destinationVC.winStatus = "Win"
             }
         }
-     
-        
-
     }
-    
-
 }
 
